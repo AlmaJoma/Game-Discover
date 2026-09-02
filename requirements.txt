@@ -1,0 +1,12 @@
+cs50
+Flask
+Flask-Session
+requests
+json
+dotenv
+concurrent.futures
+functools
+math
+re
+threading
+collections

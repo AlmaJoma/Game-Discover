@@ -1,0 +1,36 @@
+# --- Variables de entorno / secretos ---
+.env
+.env.*
+!.env.example
+
+# --- Sesiones de Flask ---
+flask_session/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+
+# --- Entornos virtuales ---
+venv/
+env/
+ENV/
+.venv/
+
+# --- Bases de datos locales ---
+*.db
+*.sqlite3
+
+# --- Editor / SO ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+*.log

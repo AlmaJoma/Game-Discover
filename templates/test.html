@@ -1,0 +1,393 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    - Test
+{% endblock %}
+
+{% block main %}
+    <div>
+    <form action="/gamequestionnaire" method="POST">
+        <div class="question-card">
+            <h4>{{ t.platform_question }}</h4>
+            <div class="uiverse-pixel-radio-group" id="platform-container">
+                {% for p in principales %}
+                    <label class="uiverse-pixel-radio">
+                        <input type="radio" name="platform" value="{{ p.id }}">
+                        <span class="label-text">{{ p.name }}</span>
+                    </label>
+                {% endfor %}
+                <select name="platform_extra" class="plataformas-extra" id="platform-select">
+                    <option disabled selected value="">+</option>
+                    {% for p in restantes %}
+                        <option value="{{ p.id }}">{{ p.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <script>
+                const radios = document.querySelectorAll('input[name="platform"]');
+                const select = document.getElementById('platform-select');
+                radios.forEach(radio => {
+                    radio.addEventListener('change', () => {
+                        select.value = "";
+                        radios.forEach(r => { if (r !== radio) r.checked = false; });
+                    });
+                });
+                select.addEventListener('change', () => {
+                    radios.forEach(radio => radio.checked = false);
+                });
+            </script>
+        </div>
+        <div class="question-card">
+            <h4>{{ t.age_question }}</h4>
+            <div class="uiverse-pixel-radio-group">
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="age_filter" value="1"/>
+                    <span class="label-text">{{ t.age_recent }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="age_filter" value="2"/>
+                    <span class="label-text">{{ t.age_10years }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="age_filter" value="3"/>
+                    <span class="label-text">{{ t.age_retro }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="age_filter" value="4" checked/>
+                    <span class="label-text">{{ t.age_no_pref }}</span>
+                </label>
+            </div>
+        </div>
+        <div class="question-card">
+            <h4>{{ t.playtime_question }}</h4>
+            <div class="uiverse-pixel-radio-group">
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="playtime" value="short" checked />
+                    <span class="label-text">{{ t.playtime_short }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="playtime" value="medium" />
+                    <span class="label-text">{{ t.playtime_medium }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="playtime" value="long" />
+                    <span class="label-text">{{ t.playtime_long }}</span>
+                </label>
+            </div>
+        </div>
+        <div class="question-card">
+            <h4>{{ t.players_question }}</h4>
+            <div class="uiverse-pixel-radio-group">
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="players" value="solo" checked />
+                    <span class="label-text">{{ t.players_solo }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="players" value="multi" />
+                    <span class="label-text">{{ t.players_multi }}</span>
+                </label>
+            </div>
+        </div>
+        <div class="question-card">
+            <h4>{{ t.pace_question }}</h4>
+            <div class="uiverse-pixel-radio-group">
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="pace" value="fast" checked />
+                    <span class="label-text">{{ t.pace_fast }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="pace" value="relaxed" />
+                    <span class="label-text">{{ t.pace_relaxed }}</span>
+                </label>
+            </div>
+        </div>
+        <div class="question-card">
+            <h4>{{ t.story_question }}</h4>
+            <div class="uiverse-pixel-radio-group">
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="story" value="choices" checked />
+                    <span class="label-text">{{ t.story_choices }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="story" value="atmosphere" />
+                    <span class="label-text">{{ t.story_atmosphere }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="story" value="characters" />
+                    <span class="label-text">{{ t.story_characters }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="story" value="mystery" />
+                    <span class="label-text">{{ t.story_mystery }}</span>
+                </label>
+            </div>
+        </div>
+        <div class="question-card">
+            <h4>{{ t.fun_question }}</h4>
+            <div class="uiverse-pixel-radio-group">
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="fun" value="skill" checked />
+                    <span class="label-text">{{ t.fun_skill }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="fun" value="thinking" />
+                    <span class="label-text">{{ t.fun_thinking }}</span>
+                </label>
+            </div>
+        </div>
+        <div class="question-card">
+            <h4>{{ t.exploration_question }}</h4>
+            <div class="uiverse-pixel-radio-group">
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="exploration" value="open" checked />
+                    <span class="label-text">{{ t.exploration_open }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="exploration" value="linear" />
+                    <span class="label-text">{{ t.exploration_linear }}</span>
+                </label>
+            </div>
+        </div>
+        <div class="question-card">
+            <h4>{{ t.joy_question }}</h4>
+            <div class="uiverse-pixel-radio-group">
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="joy" value="freedom" checked />
+                    <span class="label-text">{{ t.joy_freedom }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="joy" value="challenge" />
+                    <span class="label-text">{{ t.joy_challenge }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="joy" value="funny" />
+                    <span class="label-text">{{ t.joy_funny }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="joy" value="emotional" />
+                    <span class="label-text">{{ t.joy_emotional }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="joy" value="competitive" />
+                    <span class="label-text">{{ t.joy_competitive }}</span>
+                </label>
+            </div>
+        </div>
+        <div class="question-card">
+            <h4>{{ t.visual_question }}</h4>
+            <div class="uiverse-pixel-radio-group">
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="visual" value="pixel" checked />
+                    <span class="label-text">{{ t.visual_pixel }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="visual" value="anime" />
+                    <span class="label-text">{{ t.visual_anime }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="visual" value="stylized" />
+                    <span class="label-text">{{ t.visual_stylized }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="visual" value="realistic" />
+                    <span class="label-text">{{ t.visual_realistic }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="visual" value="minimalist" />
+                    <span class="label-text">{{ t.visual_minimalist }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="visual" value="lowpoly" />
+                    <span class="label-text">{{ t.visual_lowpoly }}</span>
+                </label>
+            </div>
+        </div>
+        <div class="question-card">
+            <h4>{{ t.phrase_question }}</h4>
+            <div class="uiverse-pixel-radio-group">
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="phrase" value="1" checked />
+                    <span class="label-text">{{ t.phrase_1 }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="phrase" value="2" />
+                    <span class="label-text">{{ t.phrase_2 }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="phrase" value="3" />
+                    <span class="label-text">{{ t.phrase_3 }}</span>
+                </label>
+                <label class="uiverse-pixel-radio">
+                    <input type="radio" name="phrase" value="4" />
+                    <span class="label-text">{{ t.phrase_4 }}</span>
+                </label>
+            </div>
+        </div>
+        <div class="question-card">
+            <div class="game-selector-container">
+                <h2>{{ t.add_games_question }}</h2>
+                <div class="search-box">
+                    <input type="text" class="game-input" id="gameInput"
+                        placeholder="{{ t.search_placeholder }}" autocomplete="off">
+                    <div class="dropdown" id="dropdown"></div>
+                </div>
+                <div class="selected-games" id="selectedGames" style="margin-bottom: 10px"></div>
+                <button type="button" class="btn-pixel" style="margin-top: 10px" onclick="limpiarJuegos()">{{ t.clear_games }}</button>
+                <script>
+                    async function limpiarJuegos() {
+                        await fetch('/limpiar_sesion', { method: 'POST' });
+                        selectedGames = [];
+                        renderizarJuegosSeleccionados();
+                    }
+                </script>
+            </div>
+            <script>
+                const gameInput = document.getElementById('gameInput');
+                const dropdown = document.getElementById('dropdown');
+                const selectedGamesContainer = document.getElementById('selectedGames');
+
+                // Textos traducidos desde el servidor
+                const searchingText = "{{ t.searching }}";
+                const noResultsText = "{{ t.no_results }}";
+
+                let searchTimeout;
+                let selectedGames = [];
+
+                // Cargar juegos seleccionados al inicio
+                async function cargarJuegosSeleccionados() {
+                    try {
+                        const response = await fetch('/obtener_juegos_seleccionados');
+                        selectedGames = await response.json();
+                        renderizarJuegosSeleccionados();
+                    } catch (error) {
+                        console.error('Error cargando juegos:', error);
+                    }
+                }
+
+                // Buscar juegos en RAWG
+                async function buscarJuegos(query) {
+                    if (query.length < 2) {
+                        dropdown.innerHTML = '';
+                        dropdown.classList.remove('show');
+                        return;
+                    }
+
+                    dropdown.innerHTML = '<div class="loading">' + searchingText + '</div>';
+                    dropdown.classList.add('show');
+
+                    try {
+                        const response = await fetch(`/buscar_juegos?q=${encodeURIComponent(query)}`);
+                        const juegos = await response.json();
+
+                        if (juegos.length === 0) {
+                            dropdown.innerHTML = '<div class="no-results">' + noResultsText + '</div>';
+                            return;
+                        }
+
+                        dropdown.innerHTML = juegos.map(juego => `
+                            <div class="dropdown-item" data-id="${juego.id}" data-nombre="${juego.nombre}" data-imagen="${juego.imagen || ''}">
+                                ${juego.imagen ? `<img src="${juego.imagen}" alt="${juego.nombre}">` : ''}
+                                <span>${juego.nombre}</span>
+                            </div>
+                        `).join('');
+
+                        // Agregar listeners a los items
+                        dropdown.querySelectorAll('.dropdown-item').forEach(item => {
+                            item.addEventListener('click', () => {
+                                agregarJuego({
+                                    id: parseInt(item.dataset.id),
+                                    nombre: item.dataset.nombre,
+                                    imagen: item.dataset.imagen
+                                });
+                            });
+                        });
+                    } catch (error) {
+                        dropdown.innerHTML = '<div class="no-results">Error al buscar</div>';
+                    }
+                }
+
+                // Agregar juego a la selección
+                async function agregarJuego(juego) {
+                    // Verificar si ya está seleccionado
+                    if (selectedGames.some(j => j.id === juego.id)) {
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch('/agregar_juego', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(juego)
+                        });
+
+                        if (response.ok) {
+                            selectedGames.push(juego);
+                            renderizarJuegosSeleccionados();
+                            gameInput.value = '';
+                            dropdown.innerHTML = '';
+                            dropdown.classList.remove('show');
+                        }
+                    } catch (error) {
+                        console.error('Error agregando juego:', error);
+                    }
+                }
+
+                // Eliminar juego de la selección
+                async function eliminarJuego(juegoId) {
+                    try {
+                        const response = await fetch('/eliminar_juego', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ id: juegoId })
+                        });
+
+                        if (response.ok) {
+                            selectedGames = selectedGames.filter(j => j.id !== juegoId);
+                            renderizarJuegosSeleccionados();
+                        }
+                    } catch (error) {
+                        console.error('Error eliminando juego:', error);
+                    }
+                }
+
+                // Renderizar juegos seleccionados
+                function renderizarJuegosSeleccionados() {
+                    selectedGamesContainer.innerHTML = selectedGames.map(juego => `
+                        <div class="game-tag" data-id="${juego.id}">
+                            <span>${juego.nombre}</span>
+                            <span class="remove-btn">✕</span>
+                        </div>
+                    `).join('');
+
+                    // Agregar listeners
+                    selectedGamesContainer.querySelectorAll('.game-tag').forEach(tag => {
+                        tag.addEventListener('click', () => {
+                            eliminarJuego(parseInt(tag.dataset.id));
+                        });
+                    });
+                }
+
+                // Event listeners
+                gameInput.addEventListener('input', (e) => {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        buscarJuegos(e.target.value);
+                    }, 300);
+                });
+
+                // Cerrar dropdown al hacer click fuera
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.search-box')) {
+                        dropdown.classList.remove('show');
+                    }
+                });
+
+                // Cargar juegos al iniciar
+                cargarJuegosSeleccionados();
+            </script>
+        </div>
+        <button type="submit" class="btn-submit">{{ t.submit }}</button>
+    </form>
+    </div>
+{% endblock %}
+

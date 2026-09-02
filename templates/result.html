@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}
+   - Results
+{% endblock %}
+
+{% block main %}
+    <h2 style="margin-left: 1rem;">{{ t.recommendations }}</h2>
+    <div class="results">
+        {% for g in juegos %}
+            <div class="game-card {% if loop.index > 3 %}hidden-game{% endif %}">
+                <img
+                    src="{{ g.background_image or g.get('background_image') or '/static/noimg.png' }}"
+                    alt="{{ g.name }}"
+                    class="game-img"
+                />
+                <h3>{{ g.name }}</h3>
+                <p>{{ t.genres }} {{ g.genres | map(attribute='name') | join(', ') }}</p>
+                <p>{{ t.rating }} {{ g.rating }} — {{ t.released }} {{ g.released }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    {% if juegos|length > 5 %}
+        <button id="showMoreBtn" class="btn-submit" style="margin-left: 1rem;">{{ t.more_btn }}</button>
+    {% endif %}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const btn = document.getElementById("showMoreBtn");
+            if (!btn) return;
+
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".hidden-game").forEach(card => {
+                    card.classList.remove("hidden-game");
+                });
+                btn.style.display = "none";
+            });
+        });
+    </script>
+{% endblock %}

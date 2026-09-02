@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <div class="image-container">
+        <img src="static/2020games.png" alt="videogames image">
+        <div class="content-overlay">
+            <h2 class="overlay-text">{{ t.discover_experience }}</h2>
+            <button class="button" onclick="window.location.href='/gamequestionnaire'">
+                <span>{{ t.take_test }}</span>
+            </button>
+        </div>
+    </div>
+    <div class="regtext">
+        <p>{{ t.no_idea_text }}</p>
+        <p>{{ t.rawg_text }}</p>
+    </div>
+{% endblock %}
